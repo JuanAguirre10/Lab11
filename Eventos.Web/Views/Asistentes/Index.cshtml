@@ -57,6 +57,7 @@
                         <th>Nombres</th>
                         <th>DNI</th>
                         <th class="d-none d-md-table-cell">Correo</th>
+                        <th class="d-none d-sm-table-cell">Teléfono</th>
                         <th><span class="visually-hidden">Acciones</span></th>
                     </tr>
                 </thead>
@@ -67,6 +68,16 @@
                             <td class="cell-title">@asistente.Nombres</td>
                             <td class="mono">@asistente.Dni</td>
                             <td class="d-none d-md-table-cell">@asistente.Correo</td>
+                            <td class="d-none d-sm-table-cell mono">
+                                @if (string.IsNullOrEmpty(asistente.Telefono))
+                                {
+                                    <span class="text-sin-dato">Sin registrar</span>
+                                }
+                                else
+                                {
+                                    @asistente.Telefono
+                                }
+                            </td>
                             <td>
                                 <div class="row-actions">
                                     <a asp-controller="Inscripciones" asp-action="Create" asp-route-asistenteId="@asistente.Id">Inscribir</a>

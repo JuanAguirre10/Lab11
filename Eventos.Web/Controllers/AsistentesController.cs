@@ -32,11 +32,12 @@ public class AsistentesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Nombres,Dni,Correo")] Asistente asistente)
+    public async Task<IActionResult> Create([Bind("Nombres,Dni,Correo,Telefono")] Asistente asistente)
     {
         asistente.Nombres = asistente.Nombres?.Trim()!;
         asistente.Dni = asistente.Dni?.Trim()!;
         asistente.Correo = asistente.Correo?.Trim().ToLowerInvariant()!;
+        asistente.Telefono = string.IsNullOrWhiteSpace(asistente.Telefono) ? null : asistente.Telefono.Trim();
 
         if (EsValido(nameof(Asistente.Dni)) && await _asistentes.ExisteDniAsync(asistente.Dni))
             ModelState.AddModelError(nameof(Asistente.Dni), "Ya existe un asistente registrado con este DNI.");

@@ -345,6 +345,11 @@ a.cell-title:hover {
   letter-spacing: .01em;
 }
 
+.text-sin-dato {
+  color: var(--ev-faint);
+  font-size: .8125rem;
+}
+
 .event-when {
   display: flex;
   align-items: center;

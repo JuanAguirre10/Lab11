@@ -48,6 +48,10 @@ namespace Eventos.Web.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Telefono")
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Correo")

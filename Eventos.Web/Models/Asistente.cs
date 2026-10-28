@@ -26,6 +26,10 @@ public class Asistente
 
     public bool Activo { get; set; } = true;
 
+    [StringLength(9, ErrorMessage = "El teléfono admite como máximo 9 caracteres.")]
+    [RegularExpression(@"^\d{7,9}$", ErrorMessage = "El teléfono debe tener entre 7 y 9 dígitos.")]
+    public string? Telefono { get; set; }
+
     [ValidateNever]
     public List<Inscripcion> Inscripciones { get; set; } = new();
 }
