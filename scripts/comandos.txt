@@ -1,0 +1,44 @@
+PAQUETES (Eventos.Web)
+---------------------------------------------------------------------
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+
+TERMINAL (dentro de Eventos.Web)
+---------------------------------------------------------------------
+dotnet tool install --global dotnet-ef
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+dotnet ef migrations add AgregarModalidadEvento
+dotnet ef database update
+
+dotnet ef migrations add AgregarTelefonoAsistente
+dotnet ef database update
+
+
+VISUAL STUDIO (Consola del Administrador de paquetes)
+---------------------------------------------------------------------
+Add-Migration InitialCreate
+Update-Database
+
+Add-Migration AgregarModalidadEvento
+Update-Database
+
+Add-Migration AgregarTelefonoAsistente
+Update-Database
+
+
+VERIFICACION EN SQL SERVER (EventosDB)
+---------------------------------------------------------------------
+SELECT MigrationId, ProductVersion FROM __EFMigrationsHistory ORDER BY MigrationId;
+
+
+NOTAS
+---------------------------------------------------------------------
+- En AgregarModalidadEvento, antes de Update-Database se cambio en el archivo de la
+  migracion defaultValue: "" por defaultValue: "Presencial".
+- No borrar ni renombrar archivos de Migrations. Para deshacer la ultima migracion sin
+  aplicar: dotnet ef migrations remove (Remove-Migration).
