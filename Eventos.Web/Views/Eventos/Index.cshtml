@@ -39,6 +39,7 @@
                         <th>Fecha</th>
                         <th>Evento</th>
                         <th class="d-none d-lg-table-cell">Categoría</th>
+                        <th class="d-none d-md-table-cell">Modalidad</th>
                         <th class="num">Precio</th>
                         <th>Inscritos</th>
                         <th class="num">Disponibles</th>
@@ -64,6 +65,9 @@
                                 <div class="cell-sub">@evento.Lugar</div>
                             </td>
                             <td class="d-none d-lg-table-cell">@evento.Categoria</td>
+                            <td class="d-none d-md-table-cell">
+                                <span class="modalidad @(evento.Modalidad == Evento.Virtual ? "is-virtual" : null)">@evento.Modalidad</span>
+                            </td>
                             <td class="num">@Formato.Precio(evento.Precio)</td>
                             <td>
                                 <div class="cupo">

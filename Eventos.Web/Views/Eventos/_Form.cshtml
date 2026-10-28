@@ -15,13 +15,21 @@
         <span asp-validation-for="CategoriaId"></span>
     </div>
     <div class="col-md-6">
+        <label asp-for="Modalidad" class="form-label">Modalidad</label>
+        <select asp-for="Modalidad" class="form-select">
+            <option value="@Evento.Presencial">Presencial</option>
+            <option value="@Evento.Virtual">Virtual</option>
+        </select>
+        <span asp-validation-for="Modalidad"></span>
+    </div>
+    <div class="col-md-6">
         <label asp-for="Fecha" class="form-label">Fecha y hora</label>
         <input asp-for="Fecha" asp-format="{0:yyyy-MM-ddTHH:mm}" type="datetime-local" class="form-control" />
         <span asp-validation-for="Fecha"></span>
     </div>
-    <div class="col-12">
+    <div class="col-md-6">
         <label asp-for="Lugar" class="form-label">Lugar</label>
-        <input asp-for="Lugar" class="form-control" maxlength="100" placeholder="Ej. Auditorio principal, San Isidro" />
+        <input asp-for="Lugar" class="form-control" maxlength="100" placeholder="Dirección o plataforma" />
         <span asp-validation-for="Lugar"></span>
     </div>
     <div class="col-md-6">

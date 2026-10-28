@@ -29,7 +29,7 @@
   --bs-body-font-family: var(--ev-font);
   --bs-body-font-size: .9375rem;
   --bs-body-color: var(--ev-ink);
-  --bs-body-bg: var(--ev-bg);
+  --bs-body-bg: var(--ev-surface);
   --bs-border-color: var(--ev-line);
   --bs-link-color: var(--ev-primary);
   --bs-link-color-rgb: var(--ev-primary-rgb);
@@ -43,6 +43,7 @@ html {
 
 body {
   min-height: 100vh;
+  background-color: var(--ev-bg);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -478,6 +479,27 @@ tr.is-past .cell-title {
   color: var(--ev-primary);
   font-size: .75rem;
   font-weight: 600;
+}
+
+.modalidad {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--ev-ink-2);
+  white-space: nowrap;
+}
+
+.modalidad::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--ev-faint);
+  border-radius: 2px;
+}
+
+.modalidad.is-virtual::before {
+  border-color: var(--ev-primary);
+  border-radius: 50%;
 }
 
 .row-actions {

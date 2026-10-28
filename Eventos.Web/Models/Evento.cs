@@ -6,6 +6,9 @@ namespace Eventos.Web.Models;
 
 public class Evento
 {
+    public const string Presencial = "Presencial";
+    public const string Virtual = "Virtual";
+
     public int Id { get; set; }
 
     [Required(ErrorMessage = "El título es obligatorio.")]
@@ -32,6 +35,11 @@ public class Evento
     public Categoria Categoria { get; set; } = null!;
 
     public bool Activo { get; set; } = true;
+
+    [Required(ErrorMessage = "La modalidad es obligatoria.")]
+    [StringLength(20)]
+    [RegularExpression("^(Presencial|Virtual)$", ErrorMessage = "La modalidad debe ser Presencial o Virtual.")]
+    public string Modalidad { get; set; } = Presencial;
 
     [ValidateNever]
     public List<Inscripcion> Inscripciones { get; set; } = new();

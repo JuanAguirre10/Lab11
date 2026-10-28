@@ -40,12 +40,12 @@ public class EventosController : Controller
     public async Task<IActionResult> Create()
     {
         await CargarCategoriasAsync();
-        return View(new Evento { Fecha = DateTime.Today.AddDays(7).AddHours(19) });
+        return View(new Evento { Fecha = DateTime.Today.AddDays(7).AddHours(19), Aforo = 50 });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Titulo,Fecha,Lugar,Aforo,Precio,CategoriaId")] Evento evento)
+    public async Task<IActionResult> Create([Bind("Titulo,Fecha,Lugar,Modalidad,Aforo,Precio,CategoriaId")] Evento evento)
     {
         await ValidarReglasAsync(evento);
 
@@ -76,7 +76,7 @@ public class EventosController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Fecha,Lugar,Aforo,Precio,CategoriaId")] Evento evento)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Fecha,Lugar,Modalidad,Aforo,Precio,CategoriaId")] Evento evento)
     {
         if (id != evento.Id) return NotFound();
 

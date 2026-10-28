@@ -19,6 +19,8 @@
         <div class="meta-line">
             <span>@Model.Categoria.Nombre</span>
             <span class="sep"></span>
+            <span>@Model.Modalidad</span>
+            <span class="sep"></span>
             <span>@Formato.Fecha(Model.Fecha)</span>
             @if (finalizado)
             {
@@ -48,6 +50,8 @@
                     <dd>@Formato.FechaLarga(Model.Fecha)</dd>
                     <dt>Lugar</dt>
                     <dd>@Model.Lugar</dd>
+                    <dt>Modalidad</dt>
+                    <dd>@Model.Modalidad</dd>
                     <dt>Categoría</dt>
                     <dd>@Model.Categoria.Nombre</dd>
                     <dt>Precio</dt>

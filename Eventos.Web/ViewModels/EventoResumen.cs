@@ -6,6 +6,7 @@ public class EventoResumen
     public string Titulo { get; set; } = "";
     public DateTime Fecha { get; set; }
     public string Lugar { get; set; } = "";
+    public string Modalidad { get; set; } = "";
     public string Categoria { get; set; } = "";
     public int Aforo { get; set; }
     public decimal Precio { get; set; }
