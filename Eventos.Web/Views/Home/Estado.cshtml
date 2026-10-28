@@ -1,0 +1,12 @@
+@model int
+@{
+    var noEncontrado = Model == 404;
+    ViewData["Title"] = noEncontrado ? "No encontrado" : "Error";
+}
+
+<div class="state">
+    <span class="code">@Model</span>
+    <h1>@(noEncontrado ? "Página no encontrada" : "No se pudo completar la solicitud")</h1>
+    <p>@(noEncontrado ? "El registro que busca no existe o ya fue eliminado." : "Intente nuevamente en unos minutos.")</p>
+    <a class="btn btn-quiet" asp-controller="Eventos" asp-action="Index">Volver a eventos</a>
+</div>

@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('modalCancelar');
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (evento) {
+            var boton = evento.relatedTarget;
+            modal.querySelector('form').setAttribute('action', boton.getAttribute('data-url'));
+            modal.querySelector('[data-detalle]').textContent = boton.getAttribute('data-detalle');
+        });
+    }
+});
