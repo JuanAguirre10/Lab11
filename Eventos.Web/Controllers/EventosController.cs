@@ -122,7 +122,14 @@ public class EventosController : Controller
         if (evento == null) return NotFound();
 
         var confirmados = await _eventos.ContarConfirmadosAsync(id);
-        await _eventos.DesactivarAsync(id);
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Confirmados = confirmados;
+            return View(evento);
+        }
+
+        if (!await _eventos.DesactivarAsync(id))
+            return NotFound();
 
         TempData["Mensaje"] = confirmados switch
         {

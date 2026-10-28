@@ -334,6 +334,18 @@ a.cell-title:hover {
   text-decoration: underline;
 }
 
+.title-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem .55rem;
+}
+
+.data-table .is-zero {
+  color: var(--ev-bad);
+  font-weight: 600;
+}
+
 .cell-sub {
   margin-top: .15rem;
   color: var(--ev-muted);

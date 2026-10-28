@@ -15,7 +15,7 @@ public class Asistente
     public string Nombres { get; set; } = null!;
 
     [Required(ErrorMessage = "El DNI es obligatorio.")]
-    [StringLength(8)]
+    [StringLength(8, ErrorMessage = "El DNI debe tener 8 dígitos.")]
     [RegularExpression(@"^\d{8}$", ErrorMessage = "El DNI debe tener 8 dígitos.")]
     public string Dni { get; set; } = null!;
 

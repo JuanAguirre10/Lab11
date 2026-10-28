@@ -100,7 +100,7 @@ Lab11/
 
 ## Reglas implementadas
 
-- Eventos: el listado muestra los eventos activos con su categoría y modalidad, permite filtrar por categoría y los ordena por fecha (primero los próximos). Para cada evento muestra los inscritos confirmados y los cupos disponibles (`Aforo` menos confirmadas). Al registrar un evento, la fecha debe ser futura. Al editarlo, el aforo no puede quedar por debajo de las inscripciones confirmadas. Eliminar un evento lo marca como inactivo y cancela sus inscripciones confirmadas.
+- Eventos: el listado muestra los eventos activos con su categoría y modalidad, permite filtrar por categoría y los ordena por fecha. Para cada evento muestra los inscritos confirmados y los cupos disponibles (`Aforo` menos confirmadas). Al registrar un evento, la fecha debe ser futura. Al editarlo, el aforo no puede quedar por debajo de las inscripciones confirmadas. Eliminar un evento lo marca como inactivo y cancela sus inscripciones confirmadas.
 - Asistentes: el listado muestra los activos ordenados por nombres, con búsqueda por nombre o DNI. Al registrar, si el DNI o el correo ya existen se muestra el error en el formulario. El DNI debe tener 8 dígitos y el teléfono, si se ingresa, entre 7 y 9.
 - Inscripciones: no se inscribe en un evento que ya pasó, ni a un asistente que ya tiene una inscripción confirmada en ese evento, ni en un evento cuyas confirmadas ya alcanzaron el aforo. Se guardan con estado `Confirmada`. El listado se filtra por estado y permite cancelar las confirmadas (pasan a `Cancelada` y liberan el cupo).
 - Las validaciones de formato están en los Data Annotations de las entidades; las que consultan la base de datos se hacen en los controladores con `ModelState.AddModelError`.

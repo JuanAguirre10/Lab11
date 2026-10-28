@@ -38,8 +38,8 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Evento</th>
-                        <th class="d-none d-lg-table-cell">Categoría</th>
-                        <th class="d-none d-md-table-cell">Modalidad</th>
+                        <th>Categoría</th>
+                        <th>Modalidad</th>
                         <th class="num">Precio</th>
                         <th>Inscritos</th>
                         <th class="num">Disponibles</th>
@@ -61,11 +61,21 @@
                                 </div>
                             </td>
                             <td>
-                                <a class="cell-title" asp-action="Details" asp-route-id="@evento.Id">@evento.Titulo</a>
+                                <div class="title-line">
+                                    <a class="cell-title" asp-action="Details" asp-route-id="@evento.Id">@evento.Titulo</a>
+                                    @if (evento.Finalizado)
+                                    {
+                                        <span class="pill pill-off">Finalizado</span>
+                                    }
+                                    else if (evento.Disponibles == 0)
+                                    {
+                                        <span class="pill pill-bad">Lleno</span>
+                                    }
+                                </div>
                                 <div class="cell-sub">@evento.Lugar</div>
                             </td>
-                            <td class="d-none d-lg-table-cell">@evento.Categoria</td>
-                            <td class="d-none d-md-table-cell">
+                            <td>@evento.Categoria</td>
+                            <td>
                                 <span class="modalidad @(evento.Modalidad == Evento.Virtual ? "is-virtual" : null)">@evento.Modalidad</span>
                             </td>
                             <td class="num">@Formato.Precio(evento.Precio)</td>
@@ -75,20 +85,7 @@
                                     <div class="bar @barra"><span style="width: @evento.Ocupacion%"></span></div>
                                 </div>
                             </td>
-                            <td class="num">
-                                @if (evento.Finalizado)
-                                {
-                                    <span class="pill pill-off">Finalizado</span>
-                                }
-                                else if (evento.Disponibles == 0)
-                                {
-                                    <span class="pill pill-bad">Lleno</span>
-                                }
-                                else
-                                {
-                                    @evento.Disponibles
-                                }
-                            </td>
+                            <td class="num @(evento.Disponibles == 0 ? "is-zero" : null)">@evento.Disponibles</td>
                             <td>
                                 <div class="row-actions">
                                     <a asp-action="Edit" asp-route-id="@evento.Id">Editar</a>

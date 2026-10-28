@@ -39,7 +39,7 @@
                     <tr>
                         <th>Evento</th>
                         <th>Asistente</th>
-                        <th class="d-none d-md-table-cell">Inscrito el</th>
+                        <th>Inscrito el</th>
                         <th>Estado</th>
                         <th><span class="visually-hidden">Acciones</span></th>
                     </tr>
@@ -64,7 +64,7 @@
                                 <div>@inscripcion.Asistente.Nombres</div>
                                 <div class="cell-sub mono">DNI @inscripcion.Asistente.Dni</div>
                             </td>
-                            <td class="d-none d-md-table-cell nowrap">@Formato.Fecha(inscripcion.FechaInscripcion)</td>
+                            <td class="nowrap">@Formato.Fecha(inscripcion.FechaInscripcion)</td>
                             <td>
                                 <span class="pill @(confirmada ? "pill-ok" : "pill-off")">@inscripcion.Estado</span>
                             </td>

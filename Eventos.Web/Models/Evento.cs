@@ -25,7 +25,7 @@ public class Evento
     public int Aforo { get; set; }
 
     [Column(TypeName = "decimal(10,2)")]
-    [Range(0, 99999999.99, ErrorMessage = "El precio no puede ser negativo.")]
+    [Range(0, 99999999.99, ErrorMessage = "El precio no puede ser negativo ni mayor que 99999999.99.")]
     public decimal Precio { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Seleccione una categoría.")]
@@ -37,7 +37,7 @@ public class Evento
     public bool Activo { get; set; } = true;
 
     [Required(ErrorMessage = "La modalidad es obligatoria.")]
-    [StringLength(20)]
+    [StringLength(20, ErrorMessage = "La modalidad admite como máximo 20 caracteres.")]
     [RegularExpression("^(Presencial|Virtual)$", ErrorMessage = "La modalidad debe ser Presencial o Virtual.")]
     public string Modalidad { get; set; } = Presencial;
 

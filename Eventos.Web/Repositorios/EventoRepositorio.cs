@@ -16,7 +16,6 @@ public class EventoRepositorio
 
     public async Task<List<EventoResumen>> ListarAsync(int? categoriaId)
     {
-        var ahora = DateTime.Now;
         var consulta = _context.Eventos
             .AsNoTracking()
             .Where(e => e.Activo);
@@ -25,8 +24,7 @@ public class EventoRepositorio
             consulta = consulta.Where(e => e.CategoriaId == categoriaId.Value);
 
         return await consulta
-            .OrderBy(e => e.Fecha <= ahora)
-            .ThenBy(e => e.Fecha)
+            .OrderBy(e => e.Fecha)
             .Select(e => new EventoResumen
             {
                 Id = e.Id,

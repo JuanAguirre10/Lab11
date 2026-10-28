@@ -24,8 +24,8 @@ public class Inscripcion
 
     public DateTime FechaInscripcion { get; set; }
 
-    [Required]
-    [StringLength(20)]
-    [RegularExpression("^(Confirmada|Cancelada)$")]
+    [Required(ErrorMessage = "El estado es obligatorio.")]
+    [StringLength(20, ErrorMessage = "El estado admite como máximo 20 caracteres.")]
+    [RegularExpression("^(Confirmada|Cancelada)$", ErrorMessage = "El estado debe ser Confirmada o Cancelada.")]
     public string Estado { get; set; } = Confirmada;
 }

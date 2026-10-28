@@ -16,20 +16,23 @@ public static class DatosIniciales
             await context.SaveChangesAsync();
         }
 
-        if (!await context.Eventos.AnyAsync())
+        var categorias = await context.Categorias.ToDictionaryAsync(c => c.Nombre, c => c.Id);
+        if (!await context.Eventos.AnyAsync() &&
+            categorias.TryGetValue("Tecnología", out var tecnologia) &&
+            categorias.TryGetValue("Negocios", out var negocios) &&
+            categorias.TryGetValue("Cultura", out var cultura))
         {
-            var categorias = await context.Categorias.ToDictionaryAsync(c => c.Nombre, c => c.Id);
             var hoy = DateTime.Today;
 
             context.Eventos.AddRange(
                 new Evento
                 {
-                    Titulo = "Encuentro de desarrolladores .NET",
+                    Titulo = "Encuentro de desarrolladores de software",
                     Fecha = hoy.AddDays(14).AddHours(18).AddMinutes(30),
                     Lugar = "Auditorio principal, San Isidro",
                     Aforo = 120,
                     Precio = 0m,
-                    CategoriaId = categorias["Tecnología"]
+                    CategoriaId = tecnologia
                 },
                 new Evento
                 {
@@ -38,7 +41,7 @@ public static class DatosIniciales
                     Lugar = "Sala 2, Centro Empresarial Real",
                     Aforo = 60,
                     Precio = 35m,
-                    CategoriaId = categorias["Tecnología"]
+                    CategoriaId = tecnologia
                 },
                 new Evento
                 {
@@ -47,7 +50,7 @@ public static class DatosIniciales
                     Lugar = "Oficina 501, Miraflores",
                     Aforo = 4,
                     Precio = 50m,
-                    CategoriaId = categorias["Negocios"]
+                    CategoriaId = negocios
                 },
                 new Evento
                 {
@@ -56,7 +59,7 @@ public static class DatosIniciales
                     Lugar = "Centro cultural, Barranco",
                     Aforo = 150,
                     Precio = 15m,
-                    CategoriaId = categorias["Cultura"]
+                    CategoriaId = cultura
                 });
             await context.SaveChangesAsync();
         }
