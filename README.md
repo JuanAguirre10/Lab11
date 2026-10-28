@@ -31,6 +31,7 @@ Aplicación ASP.NET Core MVC de eventos e inscripciones con Entity Framework Cor
 ```bash
 cd Eventos.Web
 dotnet tool restore
+dotnet build
 dotnet ef database update
 dotnet run --launch-profile http
 ```
