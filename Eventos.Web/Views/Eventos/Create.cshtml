@@ -1,0 +1,25 @@
+@model Evento
+@{
+    ViewData["Title"] = "Nuevo evento";
+}
+
+<a class="back" asp-action="Index">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    Eventos
+</a>
+
+<div class="page-head">
+    <div>
+        <h1>Nuevo evento</h1>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" class="panel form-panel" novalidate>
+    <div class="panel-body">
+        <partial name="_Form" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a class="btn btn-quiet" asp-action="Index">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar evento</button>
+    </div>
+</form>

@@ -1,0 +1,100 @@
+@model EventosIndexViewModel
+@{
+    ViewData["Title"] = "Eventos";
+    var cantidad = Model.Eventos.Count;
+}
+
+<div class="page-head">
+    <div>
+        <h1>Eventos</h1>
+        <p class="sub">@cantidad @(cantidad == 1 ? "evento activo" : "eventos activos")</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Nuevo evento</a>
+</div>
+
+<div class="toolbar">
+    <nav class="segmented" aria-label="Filtrar por categoría">
+        <a class="@(Model.CategoriaId == null ? "active" : null)" asp-action="Index">Todas</a>
+        @foreach (var categoria in Model.Categorias)
+        {
+            <a class="@(Model.CategoriaId == categoria.Id ? "active" : null)" asp-action="Index" asp-route-categoriaId="@categoria.Id">@categoria.Nombre</a>
+        }
+    </nav>
+</div>
+
+<div class="panel">
+    @if (cantidad == 0)
+    {
+        <div class="empty">
+            <p>@(Model.CategoriaId == null ? "Todavía no hay eventos registrados." : "No hay eventos activos en esta categoría.")</p>
+            <p><a class="btn btn-quiet btn-sm" asp-action="Create">Registrar evento</a></p>
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Evento</th>
+                        <th class="d-none d-lg-table-cell">Categoría</th>
+                        <th class="num">Precio</th>
+                        <th>Inscritos</th>
+                        <th class="num">Disponibles</th>
+                        <th><span class="visually-hidden">Acciones</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var evento in Model.Eventos)
+                    {
+                        var barra = evento.Ocupacion >= 100 ? "is-full" : evento.Ocupacion >= 80 ? "is-high" : null;
+                        <tr class="@(evento.Finalizado ? "is-past" : null)">
+                            <td>
+                                <div class="event-when">
+                                    <div class="date-tile">
+                                        <span class="mes">@Formato.Mes(evento.Fecha)</span>
+                                        <span class="dia">@Formato.Dia(evento.Fecha)</span>
+                                    </div>
+                                    <span class="hora">@Formato.Hora(evento.Fecha)</span>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="cell-title" asp-action="Details" asp-route-id="@evento.Id">@evento.Titulo</a>
+                                <div class="cell-sub">@evento.Lugar</div>
+                            </td>
+                            <td class="d-none d-lg-table-cell">@evento.Categoria</td>
+                            <td class="num">@Formato.Precio(evento.Precio)</td>
+                            <td>
+                                <div class="cupo">
+                                    <div class="cupo-text"><strong>@evento.Confirmados</strong> de @evento.Aforo</div>
+                                    <div class="bar @barra"><span style="width: @evento.Ocupacion%"></span></div>
+                                </div>
+                            </td>
+                            <td class="num">
+                                @if (evento.Finalizado)
+                                {
+                                    <span class="pill pill-off">Finalizado</span>
+                                }
+                                else if (evento.Disponibles == 0)
+                                {
+                                    <span class="pill pill-bad">Lleno</span>
+                                }
+                                else
+                                {
+                                    @evento.Disponibles
+                                }
+                            </td>
+                            <td>
+                                <div class="row-actions">
+                                    <a asp-action="Edit" asp-route-id="@evento.Id">Editar</a>
+                                    <a class="is-danger" asp-action="Delete" asp-route-id="@evento.Id">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

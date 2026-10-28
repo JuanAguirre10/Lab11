@@ -1,0 +1,26 @@
+@model Evento
+@{
+    ViewData["Title"] = "Editar evento";
+}
+
+<a class="back" asp-action="Details" asp-route-id="@Model.Id">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    Volver al evento
+</a>
+
+<div class="page-head">
+    <div>
+        <h1>Editar evento</h1>
+    </div>
+</div>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="panel form-panel" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <div class="panel-body">
+        <partial name="_Form" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a class="btn btn-quiet" asp-action="Index">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>

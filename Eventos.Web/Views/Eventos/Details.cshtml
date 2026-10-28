@@ -1,0 +1,119 @@
+@model Evento
+@{
+    ViewData["Title"] = Model.Titulo;
+    var confirmados = Model.Inscripciones.Count;
+    var disponibles = Math.Max(Model.Aforo - confirmados, 0);
+    var ocupacion = Model.Aforo == 0 ? 0 : Math.Min(confirmados * 100 / Model.Aforo, 100);
+    var finalizado = Model.Fecha <= DateTime.Now;
+    var barra = ocupacion >= 100 ? "is-full" : ocupacion >= 80 ? "is-high" : null;
+}
+
+<a class="back" asp-action="Index">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    Eventos
+</a>
+
+<div class="page-head">
+    <div>
+        <h1>@Model.Titulo</h1>
+        <div class="meta-line">
+            <span>@Model.Categoria.Nombre</span>
+            <span class="sep"></span>
+            <span>@Formato.Fecha(Model.Fecha)</span>
+            @if (finalizado)
+            {
+                <span class="pill pill-off">Finalizado</span>
+            }
+            else if (disponibles == 0)
+            {
+                <span class="pill pill-bad">Lleno</span>
+            }
+        </div>
+    </div>
+    <div class="actions">
+        <a class="btn btn-quiet" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a class="btn btn-quiet is-danger" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-lg-8">
+        <section class="panel h-100">
+            <div class="panel-head">
+                <h2>Datos del evento</h2>
+            </div>
+            <div class="panel-body py-1">
+                <dl class="facts">
+                    <dt>Fecha</dt>
+                    <dd>@Formato.FechaLarga(Model.Fecha)</dd>
+                    <dt>Lugar</dt>
+                    <dd>@Model.Lugar</dd>
+                    <dt>Categoría</dt>
+                    <dd>@Model.Categoria.Nombre</dd>
+                    <dt>Precio</dt>
+                    <dd>@Formato.Precio(Model.Precio)</dd>
+                    <dt>Aforo</dt>
+                    <dd>@Model.Aforo personas</dd>
+                </dl>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <section class="panel h-100">
+            <div class="panel-head">
+                <h2>Cupos</h2>
+            </div>
+            <div class="panel-body">
+                <div class="stat-big">@disponibles</div>
+                <div class="stat-label">@(disponibles == 1 ? "cupo disponible" : "cupos disponibles") de @Model.Aforo</div>
+                <div class="bar @barra mt-3"><span style="width: @ocupacion%"></span></div>
+                <div class="stat-foot">
+                    <span>@confirmados @(confirmados == 1 ? "confirmado" : "confirmados")</span>
+                    <span>@ocupacion% ocupado</span>
+                </div>
+                @if (!finalizado && disponibles > 0)
+                {
+                    <a class="btn btn-primary w-100 mt-3" asp-controller="Inscripciones" asp-action="Create" asp-route-eventoId="@Model.Id">Inscribir asistente</a>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+<section class="panel">
+    <div class="panel-head">
+        <h2>Inscritos<span class="count">@confirmados</span></h2>
+    </div>
+    @if (confirmados == 0)
+    {
+        <div class="empty">
+            <p>Aún no hay inscripciones confirmadas para este evento.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Asistente</th>
+                        <th>DNI</th>
+                        <th class="d-none d-md-table-cell">Correo</th>
+                        <th class="num">Inscrito el</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var inscripcion in Model.Inscripciones)
+                    {
+                        <tr>
+                            <td class="cell-title">@inscripcion.Asistente.Nombres</td>
+                            <td class="mono">@inscripcion.Asistente.Dni</td>
+                            <td class="d-none d-md-table-cell">@inscripcion.Asistente.Correo</td>
+                            <td class="num">@Formato.Fecha(inscripcion.FechaInscripcion)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
