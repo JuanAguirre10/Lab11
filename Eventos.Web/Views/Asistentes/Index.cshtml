@@ -1,0 +1,81 @@
+@model AsistentesIndexViewModel
+@{
+    ViewData["Title"] = "Asistentes";
+    var cantidad = Model.Asistentes.Count;
+    var filtrado = !string.IsNullOrWhiteSpace(Model.Buscar);
+}
+
+<div class="page-head">
+    <div>
+        <h1>Asistentes</h1>
+        <p class="sub">
+            @if (filtrado)
+            {
+                @(cantidad == 1 ? "1 resultado" : $"{cantidad} resultados")
+            }
+            else
+            {
+                @(cantidad == 1 ? "1 asistente registrado" : $"{cantidad} asistentes registrados")
+            }
+        </p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Nuevo asistente</a>
+</div>
+
+<div class="toolbar">
+    <form asp-action="Index" method="get" class="search" role="search">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+        <input type="search" name="buscar" value="@Model.Buscar" class="form-control" placeholder="Buscar por nombre o DNI" aria-label="Buscar asistente" />
+        @if (filtrado)
+        {
+            <a class="btn btn-quiet" asp-action="Index">Limpiar</a>
+        }
+    </form>
+</div>
+
+<div class="panel">
+    @if (cantidad == 0)
+    {
+        <div class="empty">
+            @if (filtrado)
+            {
+                <p>Ningún asistente coincide con "@Model.Buscar".</p>
+            }
+            else
+            {
+                <p>Todavía no hay asistentes registrados.</p>
+                <p><a class="btn btn-quiet btn-sm" asp-action="Create">Registrar asistente</a></p>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>DNI</th>
+                        <th class="d-none d-md-table-cell">Correo</th>
+                        <th><span class="visually-hidden">Acciones</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var asistente in Model.Asistentes)
+                    {
+                        <tr>
+                            <td class="cell-title">@asistente.Nombres</td>
+                            <td class="mono">@asistente.Dni</td>
+                            <td class="d-none d-md-table-cell">@asistente.Correo</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a asp-controller="Inscripciones" asp-action="Create" asp-route-asistenteId="@asistente.Id">Inscribir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

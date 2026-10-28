@@ -1,0 +1,42 @@
+@model Asistente
+@{
+    ViewData["Title"] = "Nuevo asistente";
+}
+
+<a class="back" asp-action="Index">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    Asistentes
+</a>
+
+<div class="page-head">
+    <div>
+        <h1>Nuevo asistente</h1>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" class="panel form-panel" novalidate>
+    <div class="panel-body">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="row g-3">
+            <div class="col-12">
+                <label asp-for="Nombres" class="form-label">Nombres y apellidos</label>
+                <input asp-for="Nombres" class="form-control" maxlength="100" autocomplete="off" />
+                <span asp-validation-for="Nombres"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Dni" class="form-label">DNI</label>
+                <input asp-for="Dni" class="form-control mono" maxlength="8" inputmode="numeric" autocomplete="off" />
+                <span asp-validation-for="Dni"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Correo" class="form-label">Correo</label>
+                <input asp-for="Correo" type="email" class="form-control" maxlength="100" placeholder="nombre@correo.com" />
+                <span asp-validation-for="Correo"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <a class="btn btn-quiet" asp-action="Index">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar asistente</button>
+    </div>
+</form>
