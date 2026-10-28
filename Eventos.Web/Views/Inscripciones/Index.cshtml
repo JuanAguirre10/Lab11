@@ -1,0 +1,105 @@
+@model InscripcionesIndexViewModel
+@{
+    ViewData["Title"] = "Inscripciones";
+    var cantidad = Model.Inscripciones.Count;
+}
+
+<div class="page-head">
+    <div>
+        <h1>Inscripciones</h1>
+        <p class="sub">@Model.Confirmadas @(Model.Confirmadas == 1 ? "confirmada" : "confirmadas") · @Model.Canceladas @(Model.Canceladas == 1 ? "cancelada" : "canceladas")</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Nueva inscripción</a>
+</div>
+
+<div class="toolbar">
+    <nav class="segmented" aria-label="Filtrar por estado">
+        <a class="@(Model.Estado == null ? "active" : null)" asp-action="Index">Todas<span class="count">@Model.Total</span></a>
+        <a class="@(Model.Estado == Inscripcion.Confirmada ? "active" : null)" asp-action="Index" asp-route-estado="@Inscripcion.Confirmada">Confirmadas<span class="count">@Model.Confirmadas</span></a>
+        <a class="@(Model.Estado == Inscripcion.Cancelada ? "active" : null)" asp-action="Index" asp-route-estado="@Inscripcion.Cancelada">Canceladas<span class="count">@Model.Canceladas</span></a>
+    </nav>
+</div>
+
+<div class="panel">
+    @if (cantidad == 0)
+    {
+        <div class="empty">
+            <p>@(Model.Estado == null ? "Todavía no hay inscripciones registradas." : "No hay inscripciones con este estado.")</p>
+            @if (Model.Estado == null)
+            {
+                <p><a class="btn btn-quiet btn-sm" asp-action="Create">Registrar inscripción</a></p>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Asistente</th>
+                        <th class="d-none d-md-table-cell">Inscrito el</th>
+                        <th>Estado</th>
+                        <th><span class="visually-hidden">Acciones</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var inscripcion in Model.Inscripciones)
+                    {
+                        var confirmada = inscripcion.Estado == Inscripcion.Confirmada;
+                        <tr>
+                            <td>
+                                @if (inscripcion.Evento.Activo)
+                                {
+                                    <a class="cell-title" asp-controller="Eventos" asp-action="Details" asp-route-id="@inscripcion.EventoId">@inscripcion.Evento.Titulo</a>
+                                }
+                                else
+                                {
+                                    <span class="cell-title">@inscripcion.Evento.Titulo</span>
+                                }
+                                <div class="cell-sub">@Formato.Fecha(inscripcion.Evento.Fecha)</div>
+                            </td>
+                            <td>
+                                <div>@inscripcion.Asistente.Nombres</div>
+                                <div class="cell-sub mono">DNI @inscripcion.Asistente.Dni</div>
+                            </td>
+                            <td class="d-none d-md-table-cell nowrap">@Formato.Fecha(inscripcion.FechaInscripcion)</td>
+                            <td>
+                                <span class="pill @(confirmada ? "pill-ok" : "pill-off")">@inscripcion.Estado</span>
+                            </td>
+                            <td>
+                                @if (confirmada)
+                                {
+                                    <div class="row-actions">
+                                        <button type="button" class="is-danger" data-bs-toggle="modal" data-bs-target="#modalCancelar"
+                                                data-url="@Url.Action("Cancelar", new { id = inscripcion.Id, estado = Model.Estado })"
+                                                data-detalle="@($"{inscripcion.Asistente.Nombres} en \"{inscripcion.Evento.Titulo}\"")">Cancelar</button>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="modalCancelar" tabindex="-1" aria-labelledby="modalCancelarTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form asp-action="Cancelar" method="post" class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalCancelarTitulo">Cancelar inscripción</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Se cancelará la inscripción de <strong data-detalle></strong>. El cupo quedará libre para otro asistente.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-quiet" data-bs-dismiss="modal">Volver</button>
+                <button type="submit" class="btn btn-danger">Cancelar inscripción</button>
+            </div>
+        </form>
+    </div>
+</div>
